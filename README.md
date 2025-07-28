@@ -1,6 +1,2 @@
-# 유니티 스크립트 예제
+# UnityBootCamp_14
 Study_Unity_In_BootCamp_Repository
-
-## 유니티의 생명주기(Unity Life Cycle)
-***
-> 유니티에서는 프로그램의 실행부터 종료까지의 작업 영역을 함수로 제공합니다.
