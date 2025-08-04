@@ -7,6 +7,7 @@ public class UnitMoveAI : MonoBehaviour
     public float m_MaxHp = 30;
     public float m_CurHp;
 
+    private float rotSpeed = 30f;
     private EnemyPool m_Pool;
     private Transform playerPosition;   // 플레이어 위치
 
@@ -46,8 +47,11 @@ public class UnitMoveAI : MonoBehaviour
             if(distance <= detection)
             {
                 Vector3 dir = (playerPosition.position - transform.position).normalized;
+                Quaternion targetRot = Quaternion.LookRotation(dir);
                 transform.position = Vector3.MoveTowards(transform.position, playerPosition.position, speed * Time.deltaTime);
-                transform.LookAt(playerPosition.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotSpeed * Time.deltaTime);
+                //transform.LookAt(playerPosition.position);
+                yield return null;
             }
             else
             {
@@ -62,7 +66,7 @@ public class UnitMoveAI : MonoBehaviour
         if (m_CurHp <= 0)
         {
             m_CurHp = 0f;
-            gameObject.SetActive(false);
+            m_Pool.Return(gameObject);
             GameManager.inst.ScoreTextUp();
             return;
         }
@@ -72,7 +76,7 @@ public class UnitMoveAI : MonoBehaviour
         if(col.gameObject.tag == "Player")
         {
             col.gameObject.GetComponent<PlayerCtrl>().Damaged(10f);
-            gameObject.SetActive(false);
+            m_Pool.Return(gameObject);
         }
     }
 
