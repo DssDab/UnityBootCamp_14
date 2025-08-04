@@ -7,6 +7,7 @@ public class UnitMoveAI : MonoBehaviour
     public float m_MaxHp = 30;
     public float m_CurHp;
 
+    private EnemyPool m_Pool;
     private Transform playerPosition;   // 플레이어 위치
 
 
@@ -29,6 +30,11 @@ public class UnitMoveAI : MonoBehaviour
             Debug.LogWarning("게임에서 플레이어를 찾을 수 없습니다.");
         }
 
+    }
+
+    public void SetPool(EnemyPool pool)
+    {
+        m_Pool = pool;
     }
     IEnumerator Move()
     {

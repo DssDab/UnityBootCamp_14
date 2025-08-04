@@ -25,14 +25,12 @@ public class PlayerCtrl : MonoBehaviour
 
     void Update()
     {
-        //h = Input.GetAxisRaw("Horizontal");
-        //v = Input.GetAxisRaw("Vertical");
+        h = Input.GetAxisRaw("Vertical");
+        v = Input.GetAxis("Mouse X");
+        moveVec = transform.forward * h * m_Speed;
+        rigid.linearVelocity = new Vector3(moveVec.x, rigid.linearVelocity.y, moveVec.z);
 
-        //moveVec = new Vector3(h, 0, v).normalized;
-        //rigid.linearVelocity = new Vector3(moveVec.x*m_Speed,
-        //                                   rigid.linearVelocity.y,
-        //                                   moveVec.z*m_Speed);
-
+        transform.Rotate(0f,v*3f,0f);
     }
     public void Damaged(float damage)
     {

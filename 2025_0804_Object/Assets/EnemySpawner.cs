@@ -23,6 +23,7 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(delayTime);
             GameObject go = Instantiate(enemyPrefab);
             go.transform.parent = transform;
+            
             go.transform.position = spawnPoints[rand].position;
 
         }
