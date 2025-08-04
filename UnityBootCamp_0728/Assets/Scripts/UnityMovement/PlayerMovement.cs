@@ -19,13 +19,14 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // 키 입력
-        var h = Input.GetAxis("Horizontal");
-        var v = Input.GetAxis("Vertical");
+        var h = Input.GetAxisRaw("Horizontal");
+        var v = Input.GetAxisRaw("Vertical");
 
         Vector3 dir = new Vector3(h, 0, v);
 
         dir.Normalize();
-        rb.linearVelocity = new Vector3(dir.x*speed,rb.linearVelocity.y,dir.z*speed);
+        Vector3 velocity = dir * speed;
+        rb.linearVelocity = new Vector3(velocity.x,rb.linearVelocity.y,velocity.z);
         // 리지드 바디의 속성
         // linearVelocity = 선형 속도(물체가 공간 상에서 이동하는 속도)
         // angularVelocity = 각 속도(물체가 회전하는 속도)
