@@ -71,7 +71,8 @@ public class PlayerCtrl : MonoBehaviour
             m_CurHp = 0f;
             gameObject.SetActive(false);
             Debug.Log("GAME OVER");
-            return;
+            GameManager.inst.GameOver();
+            Time.timeScale = 0;
         }
     }
 
