@@ -66,7 +66,7 @@ public class UpgradeUI : MonoBehaviour
     {
         string[] temp = materials[upgrade].Split("+");
         int cost = int.Parse(temp[0].Split(' ')[0]);
-   
+
         Dictionary<string, int> required = new Dictionary<string, int>();
         required = player.m_Inventory.inventory;
 
@@ -90,9 +90,9 @@ public class UpgradeUI : MonoBehaviour
         player.m_MP = player.m_Int * 2;
         upgrade++;
 
-        Debug.Log(player.m_HP);
-        Debug.Log(player.m_ATK);
-        Debug.Log(player.m_Int);
-        Debug.Log(player.m_MP);
+        Debug.Log($"체력 : {player.m_HP}");
+        Debug.Log($"공격력 : {player.m_ATK}");
+        Debug.Log($"지능 : {player.m_Int}");
+        Debug.Log($"마나 : {player.m_MP}");
     }
 }
