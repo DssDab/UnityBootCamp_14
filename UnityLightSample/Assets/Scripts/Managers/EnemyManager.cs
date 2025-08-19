@@ -1,0 +1,33 @@
+using UnityEngine;
+
+public class EnemyManager : MonoBehaviour
+{
+    // 목표 : 일정 시간마다 적을 생성해 내 위치에 놓을것
+    // 필요한 데이터 : 일정 시간, 현재 시간, 적 생성 공장
+    // 작업 순서 : 1. 시간을 체크하고
+    //            2. 현재 시간이 일정 시간이 된다면(젠 타임, 쿨 타임...)
+    //            3. 적을 생성합니다.
+    private float min = 1f, max = 5f; // 소환 시간 간격(최대 최소) 생성 주기 조작
+    private float curTime;
+    public float createTime = 1f;
+    public GameObject spawnArea;  // 생성된 지역(배열)
+
+    
+
+    private void Update()
+    {
+        curTime += Time.deltaTime;
+
+        if(curTime > createTime)
+        {
+            var enemy = EnemyPool.instance.GetObject();
+            // 소환 지점(spawn area)에 생성을 진행할 것으로,
+            // 따로 위치나 회전 값 제공 하지 않아도 된다.
+
+            // 지점이 따로 설정 있다면 지정 위치에 생성한다.
+
+            curTime = 0f; // 현재 시간을 다시 0으로 초기화
+            createTime = Random.Range(min, max);
+        }
+    }
+}

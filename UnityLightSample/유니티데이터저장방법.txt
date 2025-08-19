@@ -1,0 +1,65 @@
+🧠 왜 SO로 최고 점수 저장이 어려운가?
+- SO는 **에디터에서 만든 자산(asset)**이고, 런타임 중 값이 바뀌어도 Unity가 자동으로 저장하지 않아요.
+- 게임을 종료하거나 Play Mode를 끝내면, 수정된 값은 사라지고 초기값으로 복원됩니다.
+- 즉, 세션 내에서는 값 유지 가능하지만, 다음 실행 시에는 초기화돼요.
+
+✅ 최고 점수 저장에 적합한 방법
+1. PlayerPrefs
+간단하고 빠르게 사용할 수 있는 Unity 내장 저장 방식입니다.
+// 저장
+PlayerPrefs.SetInt("HighScore", score);
+PlayerPrefs.Save();
+
+// 불러오기
+int highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+
+- 장점: 간단하고 즉시 사용 가능
+- 단점: 보안에 취약 (사용자가 쉽게 수정 가능)
+
+2. JSON 파일 저장
+게임 데이터를 파일로 저장하고 불러오는 방식입니다.
+[System.Serializable]
+public class SaveData
+{
+    public int highScore;
+}
+
+
+public void SaveHighScore(int score)
+{
+    SaveData data = new SaveData { highScore = score };
+    string json = JsonUtility.ToJson(data);
+    File.WriteAllText(Application.persistentDataPath + "/save.json", json);
+}
+
+
+- 장점: 구조화된 데이터 저장 가능
+- 단점: 코드가 조금 더 복잡해짐
+
+3. PlayerPrefs + SO 조합
+- SO는 게임 내에서 공유되는 데이터 구조로 사용하고,
+- PlayerPrefs는 영구 저장용으로 사용하면 역할 분담이 좋아요.
+public class ScoreManager : MonoBehaviour
+{
+    public ScoreData scoreData; // ScriptableObject
+
+    private void Start()
+    {
+        scoreData.highScore = PlayerPrefs.GetInt("HighScore", 0);
+    }
+
+    public void UpdateScore(int newScore)
+    {
+        if (newScore > scoreData.highScore)
+        {
+            scoreData.highScore = newScore;
+            PlayerPrefs.SetInt("HighScore", newScore);
+            PlayerPrefs.Save();
+        }
+    }
+}
+방식		SO 사용	 영구 저장      추천 용도
+ScriptableObject        O	      X	게임 내 공유 데이터
+PlayerPrefs	    X  	      O	최고 점수, 설정값
+JSON 저장	    X            O	복잡한 저장 구조
