@@ -28,7 +28,8 @@ public class ScoreManager : MonoBehaviour
     {
         OnNextScene += NextScene;
         SetScoreText(score);
-        bestScore = SO_bestScore.bestScore;
+        
+        bestScore = JSON_Util.inst.LoadJsonFile(SO_bestScore).bestScore;
         SetBestText(bestScore);
     }
     public void SetScore(int value)
@@ -43,6 +44,7 @@ public class ScoreManager : MonoBehaviour
         {
             bestScore = score;
             SO_bestScore.bestScore = bestScore;
+            JSON_Util.inst.SaveJsonFile(SO_bestScore);
             SetBestText(bestScore);
         }
     }
